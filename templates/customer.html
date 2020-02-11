@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+{% block css %}
+    <style>
+        th,td{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block mid_title %}
+    {% if request.path_info == '/customer/' %}
+        <a href="">客户列表</a>
+    {% else %}
+        <a href="">我的客户列表</a>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div>
+            <a href="{% url 'add_customer' %}" class="btn btn-primary" style="margin: 6px 6px">添加客户</a>
+        <div>
+            <form action="" method="GET" class="form-inline pull-right">
+                <input type="text" name="query" class="form-control">
+                <button class="btn btn-sm btn-primary">搜索<i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <form action="" method="POST" class="form-inline">
+            {% csrf_token %}
+            <select name="action" class="btn-sm form-control" style="margin: 5px 0">
+                <option value="">请选择</option>
+                <option value="multi_apply">存入私户</option>
+                <option value="multi_pub">存入公户</option>
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm">提交</button>
+            <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>选择</th>
+                    <th>id</th>
+                    <th>qq</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>手机号</th>
+{#                    <th>咨询课程</th>#}
+                    <th>状态</th>
+                    <th>咨询日期</th>
+                    <th>已报班级</th>
+                    <th>客户来源</th>
+                    {% if request.path_info == '/my_customer/' %}
+                        <th>跟进记录</th>
+                        <th>报名记录</th>
+                    {% endif %}
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                    <tr>
+                        <td><input type="checkbox" name="id" value="{{ customer.id }}"></td>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ customer.qq }}</td>
+                        <td>{{ customer.name }}</td>
+                        <td>{{ customer.get_sex_display }}</td>
+                        <td>{{ customer.phone|default:'暂无' }}</td>
+{#                        <td>{{ customer.course }}</td>#}
+                        <td>{{ customer.show_status|safe }}</td>
+                        <td>{{ customer.date }}</td>
+                        <td>{{ customer.show_classes }}</td>
+                        <td>{{ customer.get_source_display }}</td>
+                        {% if request.path_info == '/my_customer/' %}
+                            <td><a href="{% url 'enrollment_list' %}">查看跟进</a></td>
+                            <td>{{ customer.enroll_link | safe}}</td>
+                        {% endif %}
+                        <td><a href="{% url 'edit_customer' customer.id  %}"><i class="fa fa-edit fa-fw"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </form>
+        <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <p>
+                    {% for row in page_info.pager %}
+                        {{ row|safe }}
+                    {% endfor %}
+                </p>
+              </ul>
+            </nav>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+{% block css %}
+    <style>
+        th,td{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block mid_title %}
+    <a href="">客户跟进记录</a>
+{% endblock %}
+{% block content %}
+    <div>
+            <a href="{% url 'add_consult_record' %}" class="btn btn-primary" style="margin: 6px 6px">添加跟进记录</a>
+        <div>
+            <form action="" method="GET" class="form-inline pull-right">
+                <input type="text" name="query" class="form-control">
+                <button class="btn btn-sm btn-primary">搜索<i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <form action="" method="POST" class="form-inline">
+            {% csrf_token %}
+            <select name="action" class="btn-sm form-control" style="margin: 5px 0">
+                <option value="">请选择</option>
+                <option value="multi_apply">存入私户</option>
+                <option value="multi_pub">存入公户</option>
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm">提交</button>
+            <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>选择</th>
+                    <th>id</th>
+                    <td>客户</td>
+                    <td>跟进内容</td>
+                    <td>跟进状态</td>
+                    <td>跟进人</td>
+                    <td>跟进日期</td>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for consult in all_consult_record %}
+                    <tr>
+                        <td><input type="checkbox" name="id" value="{{ consult.id }}"></td>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ consult.customer }}</td>
+                        <td>{{ consult.note }}</td>
+                        <td>{{ consult.status }}</td>
+                        <td>{{ consult.consultant }}</td>
+                        <td>{{ consult.date }}</td>
+                        <td><a href="{% url 'edit_consult_record' consult.id  %}"><i class="fa fa-edit fa-fw"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </form>
+        <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <p>
+                    {% for row in page_info.pager %}
+                        {{ row|safe }}
+                    {% endfor %}
+                </p>
+              </ul>
+            </nav>
+    </div>
+
+{% endblock %}

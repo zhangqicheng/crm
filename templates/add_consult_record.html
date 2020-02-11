@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block css %}
+    <style>
+        th,td{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block mid_title %}
+    <a href="">添加客户跟进记录</a>
+{% endblock %}
+{% block content %}
+    <div class="col-sm-8 col-sm-offset-2">
+        <form action="" method="POST" novalidate>
+                {% csrf_token %}
+                {% for field in form_obj %}
+                    <div class="form-group row {% if field.errors %}has-error{% endif %}">
+                        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                        <div class="col-sm-10">
+                            {{ field }}
+                            <span class="help-block">{{ field.errors.0 }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+        </form>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="/static/jquery-3.4.1.js"></script>
+    <script>
+        $('textarea,select').focus(function () {
+            $(this).next().text('').parent().parent().removeClass('has-error')
+        })
+    </script>
+{% endblock %}

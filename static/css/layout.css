@@ -1,0 +1,83 @@
+.hide{
+    display: none;
+}
+body{
+    margin: 0;
+}
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+.pg-header{
+    height: 48px;
+    min-width: 1190px;
+    background-color: #204d74;
+    line-height: 48px;
+}
+.pg-header .logo{
+    color: white;
+    font-size: 18px;
+    width: 200px;
+    text-align: center;
+    border-right: 1px solid #d58512;
+}
+.pg-header .header-right a{
+    display: inline-block;
+    padding: 0 15px;
+    color: white;
+}
+.pg-header .header-right a:hover{
+    background-color: #269abc;
+}
+.pg-header .avatar{
+    padding: 0 20px;
+}
+.pg-header .avatar img{
+    border-radius: 50%;
+}
+.pg-header .avatar .user-info{
+    display: none;
+    position: absolute;
+    width: 170px;
+    right: 17px;
+    top: 48px;
+    background-color: #4cae4c;
+    color: white;
+    z-index: 10;
+    /*text-align: center;*/
+}
+.pg-header .avatar:hover .user-info{
+    display: block;
+}
+.pg-header .avatar .user-info a{
+    display: block;
+}
+.pg-body .menu{
+    width: 200px;
+    position: absolute;
+    left: 0;
+    top: 48px;
+    bottom: 0;
+    background-color: #dddddd;
+    text-align: center;
+    border-right: 1px solid white;
+}
+.pg-body .menu a{
+    display: block;
+    font-size: 18px;
+    padding: 15px 0;
+    border-bottom: 2px solid white;
+}
+.pg-body .content{
+    position: absolute;
+    left: 200px;
+    top: 48px;
+    bottom: 0;
+    right: 0;
+    overflow: scroll;
+    min-width: 990px;
+    /*background-color: #c0a16b;*/
+    z-index: 9;
+}

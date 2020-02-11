@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="content-Type" charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/css/login.css">
+</head>
+<body>
+<div class="login">
+        <div class="login_head">
+            <div style="float: left;padding-left: 35px">欢迎登录CRM系统</div>
+            <div class="img left"><img src="/static/imgs/a.jpg" alt=""></div>
+        </div>
+        <div style="width: 320px;margin: 0 auto;margin-top: 50px">
+            <form class="form-horizontal" id="f1" method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">用户</label>
+                <div class="col-sm-10">
+                  <input type="email" class="form-control" placeholder="输入用户名" name="username" id="username">
+                </div>
+              </div>
+                <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control"  placeholder="输入密码" name="password" id="password">
+                </div>
+              </div>
+                <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">邮箱</label>
+                <div class="col-sm-10">
+                  <input type="email" class="form-control"  placeholder="输入xx@xx.com格式" name="email" id="email">
+                </div>
+              </div>
+                <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox"> 是否一个月免登录(猜猜我是谁)
+                    </label>
+                  </div>
+                </div>
+              </div>
+                <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default btn btn-success" id="submit">登录</button>
+          <button type="button" class="btn btn-default btn btn btn-info"><a href="{% url 'reg' %}">注册</a></button><span id="error" style="color: red;">{{ error }}</span>
+        </div>
+      </div>
+            </form>
+
+    </div>
+    </div>
+<div id="particles-js">
+    <div class="sk-rotating-plane"></div>
+    <canvas class="particles-js-canvas-el" width="1343" height="202" style="width: 100%; height: 100%;"></canvas>
+</div>
+
+<script type="text/javascript" src="/static/js/jQuery.js"></script>
+<script type="text/javascript" src="/static/js/particles.min.js"></script>
+<script type="text/javascript" src="/static/js/app.js"></script>
+<script>
+    $(function () {
+        $('#submit').click(function () {
+            $('#username').text('hahah')
+            $.ajax({
+                url:'/login/',
+                type:'POST',
+                data:$('#f1').serialize(),
+                dataType:'JSON',
+                success:function (arg) {
+                    console.log(arg)
+                    if(arg.state=='ok'){
+                        location.href='/classes/?page=1'
+                    }if(arg.state=='error'){
+                        $('#error').text(arg.message.error)
+                    }else{
+                        $.each(arg.message,function (index,value) {
+                            var tag=value[0]
+                            $('#'+index).val(value)
+                            console.log(index,value)
+                        })
+                    }
+                }
+            })
+        })
+    })
+</script>
+
+</body>
+</html>

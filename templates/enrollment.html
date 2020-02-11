@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% block mid_title %}
+    <a href="">客户报名记录</a>
+{% endblock %}
+
+{% block small_title %}
+    {% if request.path_info == 'enrollment_list/add/(\d+)/' %}
+        <a href="">客户报名记录添加</a>
+    {% else %}
+        <a href="">客户报名记录编辑</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">添加报名记录</div>
+        <div class="panel-body col-sm-8 col-sm-offset-2">
+            <form method="POST" action="" novalidate>
+                {% csrf_token %}
+                {% for field in form_obj %}
+                    <div class="form-group row {% if field.errors %}has-error{% endif %}">
+                        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                        <div class="col-sm-10">
+                            {{ field }}
+                            <span class="help-block">{{ field.errors.0 }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="/static/jquery-3.4.1.js"></script>
+    <script>
+        $('input,select').focus(function () {
+            $(this).next().text('').parent().parent().removeClass('has-error')
+        })
+    </script>
+{% endblock %}

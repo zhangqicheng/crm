@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.css' %}">
+    {% block css %}{% endblock %}
+</head>
+<body>
+    <div class="pg-header">
+        <div class="logo left" >CRM初级后台管理</div>
+        <div class="right avatar" style="position: relative;">
+            <img src="/static/imgs/a.jpg" alt="加载失败" style="width: 40px;height: 40px">
+            <div class="user-info">
+                <a>个人资料</a>
+                <a>注销</a>
+            </div>
+        </div>
+        <div class="header-right right">
+            <a><i class="fa fa-american-sign-language-interpreting" aria-hidden="true"></i>秘密按钮</a>
+            <a><i class="fa fa-commenting-o" aria-hidden="true"></i>消息</a>
+            <a><i class="fa fa-envelope-o" aria-hidden="true"></i>邮件</a>
+        </div>
+    </div>
+    <div class="pg-body">
+        <div class="menu">
+            <a href="{% url 'customer' %}">客户列表</a>
+            <a href="{% url 'my_customer' %}">我的客户</a>
+            <a href="{% url 'consult_record' %}">客户跟进记录</a>
+            <a href="{% url 'enrollment_list' %}">客户报名记录</a>
+        </div>
+        {#     路径导航条     #}
+        <div class="content">
+            <ol class="breadcrumb">
+                <li><a href="/classes/">首页</a></li>
+                <li>{% block mid_title %}{% endblock %}</li>
+                <li class="active">{% block small_title %}{% endblock %}</li>
+            </ol>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    {% block js %}{% endblock %}
+</body>
+</html>

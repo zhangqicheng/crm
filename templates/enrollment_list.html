@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+{% block css %}
+    <style>
+        th,td{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block mid_title %}
+    <a href="">客户报名记录</a>
+{% endblock %}
+{% block content %}
+    <div>
+        <div>
+            <form action="" method="GET" class="form-inline pull-right">
+                <input type="text" name="query" class="form-control">
+                <button class="btn btn-sm btn-primary">搜索<i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <form action="" method="POST" class="form-inline">
+            {% csrf_token %}
+            <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>选择</th>
+                    <th>id</th>
+                    <td>客户</td>
+                    <td>报名原因</td>
+                    <td>期望</td>
+                    <td>协议</td>
+                    <td>报名日期</td>
+                    <th>校区</th>
+                    <th>编辑</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for enrollment in enrollment_list %}
+                    <tr>
+                        <td><input type="checkbox" name="id" value="{{ enrollment.id }}"></td>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ enrollment.customer }}</td>
+                        <td>{{ enrollment.why_us }}</td>
+                        <td>{{ enrollment.your_expectation }}</td>
+                        <td>{{ enrollment.contract_agreed }}</td>
+                        <td>{{ enrollment.enrolled_date }}</td>
+                        <td>{{ enrollment.school }}</td>
+                        <td><a href="{% url 'edit_enrollment' enrollment.id  %}?{{ query_params }}"><i class="fa fa-edit fa-fw"></i></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </form>
+        <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <p>
+                    {% for row in page_info.pager %}
+                        {{ row|safe }}
+                    {% endfor %}
+                </p>
+              </ul>
+            </nav>
+    </div>
+
+{% endblock %}
